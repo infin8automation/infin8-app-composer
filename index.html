@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Infinite App Composer</title>
+  <meta name="description" content="Build and ship app scaffolds fast. Clean UI. No broken links.">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/style.css" />
+</head>
+<body>
+  <div id="app">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="logo">∞</div>
+        <div class="brand-text">
+          <strong>Infinite</strong><span> App Composer</span>
+        </div>
+      </div>
+      <nav class="nav">
+        <a href="#/dashboard" data-route>Dashboard</a>
+        <a href="#/new" data-route>New App</a>
+        <a href="#/templates" data-route>Templates</a>
+        <a href="#/exports" data-route>Exports</a>
+        <a href="#/settings" data-route>Settings</a>
+      </nav>
+      <div class="footer-note">v1.0 • Infin8 Automation</div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div class="breadcrumbs" id="breadcrumbs">Dashboard</div>
+        <div class="actions">
+          <button class="btn primary" id="saveBtn">Save</button>
+          <button class="btn ghost" id="exportBtn">Export Config</button>
+        </div>
+      </header>
+
+      <!-- ROUTES -->
+      <section class="route" id="route-dashboard" data-route-view>
+        <h1>Welcome back</h1>
+        <p class="lead">Compose, configure, and ship app scaffolds without breaking flow.</p>
+        <div class="grid">
+          <div class="card">
+            <h3>Quick Start</h3>
+            <p>Spin up a fresh app scaffold with a guided setup.</p>
+            <button class="btn primary" data-nav="#/new">Start New App</button>
+          </div>
+          <div class="card">
+            <h3>Recent Exports</h3>
+            <ul id="recentExports" class="list"></ul>
+          </div>
+          <div class="card">
+            <h3>Templates</h3>
+            <p>Use pre-built patterns for CRM, quote tools, microsites, and dashboards.</p>
+            <button class="btn" data-template="quote-engine">Use Template</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="route" id="route-new" data-route-view hidden>
+        <h1>New App Wizard</h1>
+        <p class="muted">Fill the steps. Nothing here is filler; everything becomes your scaffold.</p>
+
+        <form id="wizard" class="wizard">
+          <!-- Step 1 -->
+          <div class="step">
+            <h2>1) App Identity</h2>
+            <div class="row">
+              <label>App Name
+                <input type="text" name="appName" placeholder="e.g., QuoteForge" required />
+              </label>
+              <label>Primary Goal
+                <select name="goal">
+                  <option value="quote-engine">Quote Engine</option>
+                  <option value="crm-lite">CRM Lite</option>
+                  <option value="lead-capture">Lead Capture Microsite</option>
+                  <option value="dashboard">Analytics Dashboard</option>
+                </select>
+              </label>
+            </div>
+            <label>One-sentence promise
+              <input type="text" name="tagline" placeholder="Generate clean quotes fast, no spreadsheets." />
+            </label>
+          </div>
+
+          <!-- Step 2 -->
+          <div class="step">
+            <h2>2) Feature Set</h2>
+            <div class="chips">
+              <label><input type="checkbox" name="features" value="client-side-router" checked /> Client-side Router</label>
+              <label><input type="checkbox" name="features" value="forms" checked /> Forms & Validation</label>
+              <label><input type="checkbox" name="features" value="pricing-engine" /> Pricing Engine</label>
+              <label><input type="checkbox" name="features" value="pdf-export" /> PDF Export</label>
+              <label><input type="checkbox" name="features" value="stripe" /> Stripe Paywall</label>
+              <label><input type="checkbox" name="features" value="calendly" /> Calendly Booking</label>
+              <label><input type="checkbox" name="features" value="webhooks" /> Webhooks (Google Sheets)</label>
+            </div>
+          </div>
+
+          <!-- Step 3 -->
+          <div class="step">
+            <h2>3) Branding</h2>
+            <div class="row">
+              <label>Primary Color
+                <input type="color" name="color" value="#4f46e5" />
+              </label>
+              <label>Accent Color
+                <input type="color" name="accent" value="#14b8a6" />
+              </label>
+            </div>
+            <label>Favicon Emoji
+              <input type="text" name="emoji" placeholder="∞" maxlength="2" />
+            </label>
+          </div>
+
+          <!-- Step 4 -->
+          <div class="step">
+            <h2>4) Integrations</h2>
+            <label>Stripe Payment Link (optional)
+              <input type="url" name="stripeLink" placeholder="https://buy.stripe.com/..." />
+            </label>
+            <label>Calendly Link (optional)
+              <input type="url" name="calendlyLink" placeholder="https://calendly.com/yourname/..." />
+            </label>
+            <label>Webhook URL (optional)
+              <input type="url" name="webhook" placeholder="https://script.google.com/..." />
+            </label>
+          </div>
+
+          <!-- Step 5 -->
+          <div class="step">
+            <h2>5) Generate</h2>
+            <p class="muted">This creates a runnable scaffold with your config baked in.</p>
+            <div class="row">
+              <button type="button" class="btn" id="previewBtn">Preview Config</button>
+              <button type="submit" class="btn primary">Generate Scaffold</button>
+            </div>
+            <pre class="code" id="previewBox" hidden></pre>
+          </div>
+        </form>
+      </section>
+
+      <section class="route" id="route-templates" data-route-view hidden>
+        <h1>Templates</h1>
+        <div class="grid">
+          <div class="card">
+            <h3>Quote Engine (Local Services)</h3>
+            <p>Pressure washing, roofing, lawn care. Material/markup logic ready.</p>
+            <button class="btn" data-template="quote-engine">Use Template</button>
+          </div>
+          <div class="card">
+            <h3>Lead Capture Microsite</h3>
+            <p>Hero + Offer + Proof + CTA. SEO-ready sections.</p>
+            <button class="btn" data-template="lead-capture">Use Template</button>
+          </div>
+          <div class="card">
+            <h3>CRM Lite</h3>
+            <p>Contacts, notes, follow-ups, simple pipeline.</p>
+            <button class="btn" data-template="crm-lite">Use Template</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="route" id="route-exports" data-route-view hidden>
+        <h1>Exports</h1>
+        <p class="muted">Your generated configs appear below. Click to download JSON.</p>
+        <ul id="exportsList" class="list"></ul>
+      </section>
+
+      <section class="route" id="route-settings" data-route-view hidden>
+        <h1>Settings</h1>
+        <div class="grid">
+          <div class="card">
+            <h3>Data</h3>
+            <p>All data is stored locally in your browser (localStorage). Clear anytime.</p>
+            <button class="btn danger" id="clearBtn">Clear All Data</button>
+          </div>
+          <div class="card">
+            <h3>Branding</h3>
+            <p>Update the header emoji and colors via New App → Branding.</p>
+            <button class="btn" data-nav="#/new">Open Wizard</button>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>
